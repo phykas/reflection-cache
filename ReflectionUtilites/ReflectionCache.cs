@@ -42,11 +42,6 @@ namespace ReflectionUtilites
                 throw new NullReferenceReflectionException();
             }
 
-            Type type = Type.GetType(t);
-            if (type == null)
-            {
-                throw new ArgumentException("Type " + t + " does not exist.");
-            }
             if (itemPolicy == null)
             {
                 itemPolicy = new CacheItemPolicy();
@@ -57,6 +52,11 @@ namespace ReflectionUtilites
 
             if (!memoryCache.Contains(t))
             {
+                Type type = Type.GetType(t);
+                if (type == null)
+                {
+                    throw new ArgumentException("Type " + t + " does not exist.");
+                }
                 memoryCache.Add(t, new ReflectionClass(type), itemPolicy);
             }
 
